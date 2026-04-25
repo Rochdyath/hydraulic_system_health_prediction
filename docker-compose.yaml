@@ -42,6 +42,7 @@ services:
     volumes:
       - ./airflow/:/opt/airflow/
       - ./data:/data
+      - ./mlruns:/mlruns
     command: airflow webserver
   
   airflow-scheduler:
@@ -60,6 +61,7 @@ services:
     volumes:
       - ./airflow/:/opt/airflow/
       - ./data:/data
+      - ./mlruns:/mlruns
     command: airflow scheduler
     
   mlflow:
@@ -75,3 +77,20 @@ services:
       --default-artifact-root file:///mlruns
       --host 0.0.0.0
       --port 5000"
+
+  streamlit_app:
+    build:
+      context: dockers/
+      dockerfile: Dockerfile.app
+    container_name: streamlit_app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./app_web:/app
+      - ./data:/data
+      - ./mlruns:/mlruns
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - mlflow
+  

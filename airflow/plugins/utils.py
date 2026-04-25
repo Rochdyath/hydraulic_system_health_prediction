@@ -1,7 +1,7 @@
 import pandas as pd
 
-def extract_target(data_dict: dict):
-    profile = pd.DataFrame(data_dict['profile'])
+def extract_target(data):
+    profile = pd.DataFrame(data)
     # Utilisation de "1" suite à la sérialisation JSON
     y = (profile["1"] == 100).astype(int)
     return y.tolist()

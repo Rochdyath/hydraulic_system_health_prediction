@@ -3,6 +3,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 import os
+from utils import extract_target, extract_stats
 
 # Configuration par défaut
 default_args = {
@@ -39,9 +40,9 @@ def preprocess_target(data_dict: dict):
     
     # La condition de la valve est dans la 2ème colonne du fichier profile [cite: 30, 12]
     # On crée un label binaire : 1 si optimal (100), 0 sinon 
-    y = (profile["1"] == 100).astype(int)
+    y = extract_target(profile)
     
-    return y.tolist()
+    return y
 
 @task
 def feature_engineering(data_dict: dict):
@@ -52,13 +53,13 @@ def feature_engineering(data_dict: dict):
     ps2 = pd.DataFrame(data_dict['ps2'])
     fs1 = pd.DataFrame(data_dict['fs1'])
     
-    def extract_stats(df, name):
-        stats = pd.DataFrame()
-        stats[f'{name}_mean'] = df.mean(axis=1)
-        stats[f'{name}_std'] = df.std(axis=1)
-        stats[f'{name}_max'] = df.max(axis=1)
-        stats[f'{name}_min'] = df.min(axis=1)
-        return stats
+    # def extract_stats(df, name):
+    #     stats = pd.DataFrame()
+    #     stats[f'{name}_mean'] = df.mean(axis=1)
+    #     stats[f'{name}_std'] = df.std(axis=1)
+    #     stats[f'{name}_max'] = df.max(axis=1)
+    #     stats[f'{name}_min'] = df.min(axis=1)
+    #     return stats
 
     # PS2 a 6000 attributs (100Hz) et FS1 en a 600 (10Hz) 
     features_ps2 = extract_stats(ps2, 'PS2')

@@ -5,7 +5,7 @@ from airflow.plugins.utils import extract_target, extract_stats
 
 def test_preprocess_target():
     # Simulation du dictionnaire sérialisé par Airflow
-    fake_data = {"profile": {"1": [100, 90, 80, 100]}}
+    fake_data = {"1": [100, 90, 80, 100]}
     expected = [1, 0, 0, 1]
     
     result = extract_target(fake_data)

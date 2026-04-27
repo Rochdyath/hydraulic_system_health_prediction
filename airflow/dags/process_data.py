@@ -53,14 +53,6 @@ def feature_engineering(data_dict: dict):
     ps2 = pd.DataFrame(data_dict['ps2'])
     fs1 = pd.DataFrame(data_dict['fs1'])
     
-    # def extract_stats(df, name):
-    #     stats = pd.DataFrame()
-    #     stats[f'{name}_mean'] = df.mean(axis=1)
-    #     stats[f'{name}_std'] = df.std(axis=1)
-    #     stats[f'{name}_max'] = df.max(axis=1)
-    #     stats[f'{name}_min'] = df.min(axis=1)
-    #     return stats
-
     # PS2 a 6000 attributs (100Hz) et FS1 en a 600 (10Hz) 
     features_ps2 = extract_stats(ps2, 'PS2')
     features_fs1 = extract_stats(fs1, 'FS1')
